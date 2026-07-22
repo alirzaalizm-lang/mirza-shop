@@ -25,10 +25,10 @@ jobs:
           # Fix AGP version in settings.gradle or build.gradle
           cd android
           if [ -f settings.gradle ]; then
-            sed -i 's/com.android.tools.build:gradle:.*/com.android.tools.build:gradle:8.1.0/' settings.gradle 2>/dev/null || true
+            sed -i 's/com.android.tools.build:gradle:.*/com.android.tools.build:gradle:8.7.0/' settings.gradle 2>/dev/null || true
           fi
           if [ -f build.gradle ]; then
-            sed -i 's/com.android.tools.build:gradle:.*/com.android.tools.build:gradle:8.1.0/' build.gradle 2>/dev/null || true
+            sed -i 's/com.android.tools.build:gradle:.*/com.android.tools.build:gradle:8.7.0/' build.gradle 2>/dev/null || true
           fi
           cd ..
           cd android/app
