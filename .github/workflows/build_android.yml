@@ -20,17 +20,14 @@ jobs:
         run: |
           echo "android.useAndroidX=true" >> android/gradle.properties
           echo "android.enableJetifier=true" >> android/gradle.properties
-          # Fix Gradle wrapper version for compatibility
+          # Fix Gradle wrapper
           sed -i 's|distributionUrl=.*|distributionUrl=https\\://services.gradle.org/distributions/gradle-8.9-all.zip|' android/gradle/wrapper/gradle-wrapper.properties
-          # Fix AGP version in settings.gradle or build.gradle
-          cd android
-          if [ -f settings.gradle ]; then
-            sed -i 's/com.android.tools.build:gradle:.*/com.android.tools.build:gradle:8.7.0/' settings.gradle 2>/dev/null || true
-          fi
-          if [ -f build.gradle ]; then
-            sed -i 's/com.android.tools.build:gradle:.*/com.android.tools.build:gradle:8.7.0/' build.gradle 2>/dev/null || true
-          fi
-          cd ..
+          # Fix AGP in settings.gradle (Flutter 3.24+ format)
+          sed -i 's/com.android.application" version "[^"]*"/com.android.application" version "8.7.0"/' android/settings.gradle
+          sed -i 's/com.android.library" version "[^"]*"/com.android.library" version "8.7.0"/' android/settings.gradle
+          # Fix AGP in build.gradle (old format)
+          sed -i 's/com.android.tools.build:gradle:[0-9.]*/com.android.tools.build:gradle:8.7.0/' android/build.gradle 2>/dev/null || true
+          # Fix SDK versions
           cd android/app
           if [ -f build.gradle.kts ]; then
             sed -i 's/minSdk = .*/minSdk = 21/' build.gradle.kts
