@@ -152,7 +152,7 @@ class ThemeManager extends ChangeNotifier {
           color: Colors.white,
         ),
       ),
-      cardTheme: CardTheme(
+      cardTheme: CardThemeData(
         color: _cardColor.withOpacity(0.8),
         elevation: 0,
         shape: RoundedRectangleBorder(
@@ -232,7 +232,7 @@ class ThemeManager extends ChangeNotifier {
           color: Colors.black87,
         ),
       ),
-      cardTheme: CardTheme(
+      cardTheme: CardThemeData(
         color: Colors.white,
         elevation: 2,
         shape: RoundedRectangleBorder(
