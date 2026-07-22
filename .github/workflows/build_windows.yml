@@ -1,0 +1,32 @@
+name: ساخت EXE ویندوز
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - name: دانلود کد
+        uses: actions/checkout@v4
+
+      - name: نصب Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+
+      - name: آماده‌سازی پروژه
+        run: |
+          flutter create --platforms=windows . --org com.mirzashop --project-name mirza_shop
+          flutter pub get
+
+      - name: ساخت EXE
+        run: flutter build windows --release
+
+      - name: آپلود خروجی
+        uses: actions/upload-artifact@v4
+        with:
+          name: MirzaShop-Windows
+          path: build/windows/x64/runner/Release/
