@@ -10,38 +10,22 @@ jobs:
       - uses: actions/checkout@v4
       - uses: subosito/flutter-action@v2
         with:
+          flutter-version: '3.24.5'
           channel: stable
       - uses: actions/setup-java@v4
         with:
           distribution: zulu
           java-version: 17
       - run: flutter create --platforms=android . --org com.mirzashop --project-name mirza_shop
-      - name: Fix Android
+      - name: Fix Android config
         run: |
-          echo "org.gradle.jvmargs=-Xmx4096m -XX:+HeapDumpOnOutOfMemoryError" >> android/gradle.properties
+          echo "org.gradle.jvmargs=-Xmx4096m" >> android/gradle.properties
           echo "android.useAndroidX=true" >> android/gradle.properties
           echo "android.enableJetifier=true" >> android/gradle.properties
-          # Fix Gradle wrapper
-          sed -i 's|distributionUrl=.*|distributionUrl=https\\://services.gradle.org/distributions/gradle-8.11.1-all.zip|' android/gradle/wrapper/gradle-wrapper.properties
-          # Fix AGP in settings.gradle (Flutter 3.24+ format)
-          sed -i 's/com.android.application" version "[^"]*"/com.android.application" version "8.9.0"/' android/settings.gradle
-          sed -i 's/com.android.library" version "[^"]*"/com.android.library" version "8.9.0"/' android/settings.gradle
-          sed -i 's/org.jetbrains.kotlin.android" version "[^"]*"/org.jetbrains.kotlin.android" version "2.0.0"/' android/settings.gradle
-          # Fix AGP in build.gradle (old format)
-          sed -i 's/com.android.tools.build:gradle:[0-9.]*/com.android.tools.build:gradle:8.9.0/' android/build.gradle 2>/dev/null || true
-          # Fix SDK versions
-          cd android/app
-          if [ -f build.gradle.kts ]; then
-            sed -i 's/minSdk = .*/minSdk = 21/' build.gradle.kts
-            sed -i 's/compileSdk = .*/compileSdk = 36/' build.gradle.kts
-            sed -i 's/targetSdk = .*/targetSdk = 36/' build.gradle.kts
-          fi
-          if [ -f build.gradle ]; then
-            sed -i 's/minSdkVersion .*/minSdkVersion 21/' build.gradle
-            sed -i 's/compileSdkVersion .*/compileSdkVersion 36/' build.gradle
-            sed -i 's/targetSdkVersion .*/targetSdkVersion 36/' build.gradle
-          fi
-          cd ../..
+          sed -i 's|distributionUrl=.*|distributionUrl=https\\://services.gradle.org/distributions/gradle-8.7-all.zip|' android/gradle/wrapper/gradle-wrapper.properties
+          sed -i 's/com.android.application" version "[^"]*"/com.android.application" version "8.6.0"/' android/settings.gradle
+          sed -i 's/com.android.library" version "[^"]*"/com.android.library" version "8.6.0"/' android/settings.gradle
+          sed -i 's/org.jetbrains.kotlin.android" version "[^"]*"/org.jetbrains.kotlin.android" version "1.9.22"/' android/settings.gradle
       - run: flutter pub get
       - run: flutter build apk --release
       - uses: actions/upload-artifact@v4
