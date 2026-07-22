@@ -18,6 +18,7 @@ jobs:
       - run: flutter create --platforms=android . --org com.mirzashop --project-name mirza_shop
       - name: Fix Android
         run: |
+          echo "org.gradle.jvmargs=-Xmx4096m -XX:+HeapDumpOnOutOfMemoryError" >> android/gradle.properties
           echo "android.useAndroidX=true" >> android/gradle.properties
           echo "android.enableJetifier=true" >> android/gradle.properties
           # Fix Gradle wrapper
