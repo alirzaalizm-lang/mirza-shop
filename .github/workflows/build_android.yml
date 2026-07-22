@@ -26,6 +26,7 @@ jobs:
           # Fix AGP in settings.gradle (Flutter 3.24+ format)
           sed -i 's/com.android.application" version "[^"]*"/com.android.application" version "8.9.0"/' android/settings.gradle
           sed -i 's/com.android.library" version "[^"]*"/com.android.library" version "8.9.0"/' android/settings.gradle
+          sed -i 's/org.jetbrains.kotlin.android" version "[^"]*"/org.jetbrains.kotlin.android" version "2.0.0"/' android/settings.gradle
           # Fix AGP in build.gradle (old format)
           sed -i 's/com.android.tools.build:gradle:[0-9.]*/com.android.tools.build:gradle:8.9.0/' android/build.gradle 2>/dev/null || true
           # Fix SDK versions
